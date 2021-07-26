@@ -1,0 +1,149 @@
+<!-- Header -->
+<ion-header [translucent]="false" collapse="undefined" mode="ios" [style.background-color]="firebase.config.color">
+    <nav [style.background-color]="firebase.config.color">
+        <ion-buttons slot="start" (click)="fechar()">
+            <ion-button>
+                <ion-icon slot="icon-only" name="chevron-back-outline" [style.color]="firebase.config.icones"> </ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        <ion-title [style.color]="firebase.config.titulo" size="large" style="text-align: center; font-size: 18px">
+            Carrinho
+        </ion-title>
+    </nav>
+</ion-header>
+
+<!-- Content -->
+<ion-content [fullscreen]="true">
+    <div id="container" *ngIf="step == 0">
+        <ion-list style="margin-top: 20px;" mode="ios">
+            <ion-list-header style="margin-bottom: 15px" [style.background-color]="firebase.config.color" [style.color]="firebase.config.titulo">
+                Seus itens
+            </ion-list-header>
+
+            <!-- Produtos -->
+            <ion-item *ngFor="let p of firebase.carrinho; let i = index" lines='none'>
+                <ion-row style="width: 100%;">
+                    <ion-col size="4">
+                        <div class="produtoImagem" [style.background]="'url(' + p.imagem + ')'"></div>
+                    </ion-col>
+                    <ion-col size="5">
+                        <ion-label [style.color]="firebase.config.titulo" style="overflow:visible !important; font-size: 18px;">{{p.titulo}}
+                        </ion-label>
+                        <p [style.color]="firebase.config.textos" style="font-size: 14px; margin-top: 0px; margin-bottom: 0px; width: 100%;">{{p.descricao}}</p>
+
+                        <p [style.color]="firebase.config.textos" style="font-size: 24px; position: relative; margin: 0;">
+                            <ion-badge [style.background-color]="firebase.config.color" style="font-size: 11px; position: relative; top:-2px;margin-right: 10px;">{{p.quantidade}}x</ion-badge> R${{p.preco}}
+                        </p>
+
+                    </ion-col>
+                    <ion-col size="3">
+                        <ion-icon (click)="remover(i)" name="trash-outline" style="color: red; width: 100%; height: 30px;"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+        </ion-list>
+    </div>
+
+    <div id="container" *ngIf="step == 1">
+        <ion-list style="margin-top: 20px;" mode="ios">
+            <ion-list-header style="margin-bottom: 15px" [style.background-color]="firebase.config.color" [style.color]="firebase.config.titulo">
+                Seus dados
+            </ion-list-header>
+
+            <!-- Dados -->
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Nome</ion-label>
+                        <ion-input [(ngModel)]="cliente.nome"></ion-input>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">CEP</ion-label>
+                        <ion-input (ionChange)="calcularCep()" [(ngModel)]="cliente.cep" type="tel"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Rua</ion-label>
+                        <ion-input disabled [(ngModel)]="cliente.rua"></ion-input>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="3">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Bairro</ion-label>
+                        <ion-input disabled [(ngModel)]="cliente.bairro"></ion-input>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="3">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Cidade</ion-label>
+                        <ion-input disabled [(ngModel)]="cliente.cidade"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Número</ion-label>
+                        <ion-input [(ngModel)]="cliente.numero" type="tel"></ion-input>
+                    </ion-item>
+                </ion-col>
+
+                <ion-col size="6">
+                    <ion-item>
+                        <ion-label [style.color]="firebase.config.textos" position="stacked">Telefone</ion-label>
+                        <ion-input [(ngModel)]="cliente.telefone"></ion-input>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+
+        </ion-list>
+
+        <!-- Método de pagamento -->
+        <ion-list mode="ios" style="margin-top: 20px;" lines="none">
+            <ion-list-header style="margin-bottom: 15px" [style.background-color]="firebase.config.color" [style.color]="firebase.config.titulo">
+                Como você quer pagar?
+            </ion-list-header>
+
+            <ion-item *ngFor="let opcao of cliente.pagamentos; let i = index" (click)="deixarApenasUmMarcado(i)">
+                <ion-label [style.color]="firebase.config.textos" style="font-size: 14px;">{{opcao.titulo}}</ion-label>
+                <ion-checkbox slot="end" color="success" [(ngModel)]="opcao.checked"></ion-checkbox>
+            </ion-item>
+        </ion-list>
+
+        <ion-row *ngIf="cliente.pagamentos[0].checked == true">
+            <ion-col size="12">
+                <ion-item>
+                    <ion-label position="stacked">Troco para:</ion-label>
+                    <ion-input type="tel" [(ngModel)]="cliente.troco"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+    </div>
+</ion-content>
+
+<ion-footer (click)="enviar()" *ngIf="step == 1" mode="ios">
+    <ion-toolbar>
+        <div class="footerDiv" [style.background-color]="firebase.config.color">
+            <ion-title [style.color]="firebase.config.titulo" style="font-size: 14px;">Enviar pedido por R${{total}}</ion-title>
+        </div>
+    </ion-toolbar>
+</ion-footer>
+<ion-footer (click)="finalizar()" *ngIf="step == 0" mode="ios">
+    <ion-toolbar>
+        <div class="footerDiv" [style.background-color]="firebase.config.color">
+            <ion-title [style.color]="firebase.config.titulo" style="font-size: 14px;">Finalizar pedido por R${{total}}</ion-title>
+        </div>
+    </ion-toolbar>
+</ion-footer>

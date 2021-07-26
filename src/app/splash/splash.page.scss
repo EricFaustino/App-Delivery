@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css2?family=Secular+One&display=swap');
+ion-content {
+    --background: #363636
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center
+}
+
+@-webkit-keyframes rotate-in-ver {
+    0% {
+        -webkit-transform: rotateY(-360deg);
+        transform: rotateY(-360deg);
+        opacity: 0
+    }
+    100% {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1
+    }
+}
+
+@keyframes rotate-in-ver {
+    0% {
+        -webkit-transform: rotateY(-360deg);
+        transform: rotateY(-360deg);
+        opacity: 0
+    }
+    100% {
+        -webkit-transform: rotateY(0deg);
+        transform: rotateY(0deg);
+        opacity: 1
+    }
+}
+
+img {
+    width: 100%;
+    position: absolute;
+}
+
+@-webkit-keyframes focus-in-expand {
+    0% {
+        letter-spacing: -.5em;
+        -webkit-filter: blur(12px);
+        filter: blur(12px);
+        opacity: 0
+    }
+    100% {
+        -webkit-filter: blur(0);
+        filter: blur(0);
+        opacity: 1
+    }
+}
+
+@keyframes focus-in-expand {
+    0% {
+        letter-spacing: -.5em;
+        -webkit-filter: blur(12px);
+        filter: blur(12px);
+        opacity: 0
+    }
+    100% {
+        -webkit-filter: blur(0);
+        filter: blur(0);
+        opacity: 1
+    }
+}
+
+h1 {
+    font-family: 'Secular';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 30px;
+    line-height: 40px;
+    text-align: center;
+    letter-spacing: 0.25em;
+    color: #FFFFFF;
+    text-shadow: 3px 2px 3px rgba(255, 255, 255, 0.26);
+    -webkit-animation: focus-in-expand 1.2s cubic-bezier(.25, .46, .45, .94) 2s both;
+    animation: focus-in-expand 1.2s cubic-bezier(.25, .46, .45, .94) 2s both;
+}

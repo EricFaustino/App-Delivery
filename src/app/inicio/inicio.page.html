@@ -1,0 +1,65 @@
+<!-- Header -->
+<ion-header [style.background-color]="firebase.config.color" class="ion-no-border" *ngIf="loaded" collapse="undefined" mode="ios">
+    <nav [style.background-color]="firebase.config.color">
+        <ion-buttons slot="start">
+            <ion-menu-button>
+                <ion-icon [style.color]="firebase.config.iconeNav" name="menu"></ion-icon>
+            </ion-menu-button>
+        </ion-buttons>
+
+        <ion-buttons slot="end">
+            <ion-menu-button (click)="carrinho()">
+                <ion-icon [style.color]="firebase.config.iconeNav" name="cart-outline"></ion-icon>
+            </ion-menu-button>
+
+        </ion-buttons>
+    </nav>
+</ion-header>
+
+
+<!--Banner-->
+<ion-content [fullscreen]="true" *ngIf="loaded">
+
+    <!--     <div class="banner">
+        <img src="../../assets/banner.png">
+    </div>
+ -->
+    <div class="banner" [style.background-color]="firebase.config.color">
+
+        <ion-slides class="slides" [options]='slideOpts'>
+            <ion-slide>
+                <div class="promoCard" [style.background]="'url(' + firebase.config.banner + ')'"></div>
+            </ion-slide>
+
+        </ion-slides>
+
+    </div>
+
+    <!-- Produtos -->
+
+    <div id="container">
+
+        <ion-list *ngFor="let c of categorias" style="margin-top: 20px;" mode="ios">
+            <ion-list-header [style.color]="firebase.config.tituloInicio">
+                {{c.titulo}}
+            </ion-list-header>
+
+            <!-- Produtos -->
+            <ion-item *ngFor="let p of c.produtos" lines='none' (click)="detalhesDoProduto(p)">
+                <ion-row style="width: 100%;">
+                    <ion-col size="5">
+                        <div class="produtoImagem" [style.background]="'url(' + p.imagem + ')'"></div>
+                    </ion-col>
+                    <ion-col size="7">
+                        <ion-label [style.color]="firebase.config.subtitle" style="font-size: 20px;">{{p.titulo}}</ion-label>
+                        <p [style.color]="firebase.config.textos" style="font-size: 14px; margin-top: 0px; margin-bottom: 0px; width: 100%;">{{p.descricao}}</p>
+                        <p [style.color]="firebase.config.textos" style="font-size: 18px; position: relative; margin: 0;">R${{p.preco}}</p>
+                    </ion-col>
+                </ion-row>
+            </ion-item>
+
+
+        </ion-list>
+    </div>
+
+</ion-content>
